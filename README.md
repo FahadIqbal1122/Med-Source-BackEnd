@@ -48,7 +48,7 @@ This system aims to streamline the process of managing and ordering medicines, e
 
 <div align="center">
   <pre>
-    <img src="public/images/screenshots/main-page.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/shelf-page.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/book-page.png" height="500" />
+   <img src="public/images/screenshots/1.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/2.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/3.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/4.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/5.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/6.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/7.png" height="500" />&nbsp;&nbsp;&nbsp;<img src="public/images/screenshots/8.png" height="500" />
   </pre>
 </div>
 
