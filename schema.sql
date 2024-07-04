@@ -37,7 +37,7 @@ CREATE TABLE request_products (
 )
 
 CREATE TABLE medication_list (
-  id SERIEL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
 )
 
