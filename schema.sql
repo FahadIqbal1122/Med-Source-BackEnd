@@ -3,6 +3,8 @@ CREATE DATABASE pharmacyDb;
 
 \c pharmacyDb
 
+DROP TABLE IF EXISTS users, products, request_products, medication_list, cart, orders, messages CASCADE;
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   first_name VARCHAR(255) NOT NULL,
