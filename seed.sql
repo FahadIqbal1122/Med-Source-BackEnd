@@ -1,4 +1,4 @@
-\c pharmacyDb;
+\c pharmacy_db;
 
 TRUNCATE users, products, request_products, medication_list, cart, orders, messages CASCADE;
 

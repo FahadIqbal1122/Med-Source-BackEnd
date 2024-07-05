@@ -8,6 +8,7 @@ from models.cart import Cart
 from models.message import Message
 from models.request_product import Request_Product
 from models.medication_list import MedicationList
+from resources.product import Products
 
 from resources.user import Users
 from resources.cart import Carts
@@ -34,5 +35,6 @@ api.add_resource(Request_Products, '/request')
 
 
 
+# Test comment 
 
 app.run(debug=True)
