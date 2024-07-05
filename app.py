@@ -15,6 +15,7 @@ from resources.cart import Carts
 from resources.medication_list import MedicationLists
 from resources.message import Messages
 from resources.request_product import Request_Products
+from resources.product import Products
 
 app = Flask(__name__)
 api = Api(app)
@@ -31,6 +32,7 @@ api.add_resource(Carts, '/carts')
 api.add_resource(MedicationLists, '/medication_lists')
 api.add_resource(Messages, '/messages')
 api.add_resource(Request_Products, '/request')
+api.add_resource(Products, '/products')
 
 
 
