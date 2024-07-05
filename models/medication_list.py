@@ -19,7 +19,9 @@ class MedicationList(db.Model):
         return {"id": self.id,
             "user_id": self.user_id,
             # "product_id": self.product_id,
-            "total_amount": self.total_amount}
+            "total_amount": self.total_amount,
+            "created_at": str(self.created_at),
+            "updated_at": str(self.updated_at)}
     
     def create(self):
         db.session.add(self)
