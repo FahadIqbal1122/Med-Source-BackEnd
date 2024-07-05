@@ -8,8 +8,10 @@ from models.cart import Cart
 from models.message import Message
 from models.request_product import Request_Product
 from models.medication_list import MedicationList
+from models.order import Order
 
 from resources.user import Users
+from resources.order import Orders
 from resources.cart import Carts
 from resources.medication_list import MedicationLists
 from resources.message import Messages
@@ -29,6 +31,7 @@ api.add_resource(Users, '/users')
 api.add_resource(Carts, '/carts')
 api.add_resource(MedicationLists, '/medication_lists')
 api.add_resource(Messages, '/messages')
+api.add_resource(Orders, '/orders')
 api.add_resource(Request_Products, '/request')
 
 
