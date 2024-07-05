@@ -13,15 +13,15 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
 
     def __init__(self, first_name, last_name, email, password, phone_number):
-        self.f_name= first_name
-        self.l_name = last_name
+        self.first_name= first_name
+        self.last_name = last_name
         self.email = email
         self.digest = password
         self.phone_number = phone_number
 
     def json(self):
         return {"id": self.id,
-            "name": self.f_name,
+            "name": self.first_name,
             "email": self.email,
             "Mobile": self.phone_number,
             "created_at": str(self.created_at),
@@ -39,3 +39,14 @@ class User(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+    
+    @classmethod
+    def delete_by_id(cls, id):
+        user = cls.find_by_id(id)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return True
+        else:
+            raise ValueError(f"User with ID {id} not found.")
+    
