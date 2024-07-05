@@ -9,6 +9,7 @@ from models.message import Message
 from models.request_product import Request_Product
 from models.medication_list import MedicationList
 from models.product import Product
+from models.order import Order
 
 from resources.user import Users
 from resources.cart import Carts
@@ -16,12 +17,13 @@ from resources.medication_list import MedicationLists
 from resources.message import Messages
 from resources.request_product import Request_Products
 from resources.product import Products
+from resources.order import Orders
 
 app = Flask(__name__)
 api = Api(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://fahad:admin@localhost:5432/pharmacy_db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://osama:admin@localhost:5432/pharmacy_db"
 app.config['SQLALCHEMY_ECHO'] = True
 
 db.init_app(app)
@@ -33,6 +35,7 @@ api.add_resource(MedicationLists, '/medication_lists')
 api.add_resource(Messages, '/messages')
 api.add_resource(Request_Products, '/request')
 api.add_resource(Products, '/products')
+api.add_resource(Orders, '/orders')
 
 
 
