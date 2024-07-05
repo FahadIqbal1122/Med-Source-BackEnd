@@ -9,23 +9,26 @@ class User(db.Model):
     email = db.Column(db.String(255))
     digest = db.Column(db.String(255))
     phone_number=db.Column(db.Integer)
+    #message_list = db.Column(db.ARRAY(db.String))
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
 
     def __init__(self, first_name, last_name, email, password, phone_number):
-        self.f_name= first_name
+        self.first_name = first_name
         self.l_name = last_name
         self.email = email
         self.digest = password
         self.phone_number = phone_number
 
     def json(self):
+        
         return {"id": self.id,
-            "name": self.f_name,
+            "name": self.first_name,
             "email": self.email,
             "Mobile": self.phone_number,
             "created_at": str(self.created_at),
             "updated_at": str(self.updated_at)}
+        
     
     def create(self):
         db.session.add(self)
