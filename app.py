@@ -11,7 +11,7 @@ from models.medication_list import MedicationList
 from models.product import Product
 from models.order import Order
 
-from resources.user import Users
+from resources.user import Users, SingleUser
 from resources.cart import Carts
 from resources.medication_list import MedicationLists
 from resources.message import Messages
@@ -30,6 +30,7 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 api.add_resource(Users, '/users')
+api.add_resource(SingleUser, '/users/<int:id>')
 api.add_resource(Carts, '/carts')
 api.add_resource(MedicationLists, '/medication_lists')
 api.add_resource(Messages, '/messages')
