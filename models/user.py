@@ -1,5 +1,6 @@
 from datetime import datetime
 from models.db import db
+from flask import request
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -45,12 +46,21 @@ class User(db.Model):
         return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
     
     @classmethod
-    def delete_by_id(cls, id):
-        user = cls.find_by_id(id)
-        if user:
-            db.session.delete(user)
-            db.session.commit()
-            return True
-        else:
-            raise ValueError(f"User with ID {id} not found.")
+    def update_user(cls, id):
+        user = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+        data = request.get_json()
+        user.email = data['email']
+        user.first_name = data['first_name']
+        user.last_name = data['last_name']
+        user.digest = data['password']
+        user.phone_number = data['phone_number']
+        db.session.commit()
+        return user.json()
+
+    @classmethod
+    def delete_user(cls, id):
+        user = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+        db.session.delete(user)
+        db.session.commit()
+        return {'message': 'User Deleted'}, 204
     
