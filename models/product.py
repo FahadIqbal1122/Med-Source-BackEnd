@@ -1,5 +1,7 @@
 from datetime import datetime
 from models.db import db
+from models.cartandproductsassoc import cart_product
+from models.listandprodassoc import list_product
 
 class Product(db.Model):
     __tablename__ = 'products'
@@ -12,8 +14,12 @@ class Product(db.Model):
     quantity = db.Column(db.Integer)
     available = db.Column(db.Boolean)
     image = db.Column(db.String(255))
+    cart_id = db.Column(db.Integer, db.ForeignKey('cart.id'), nullable = True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
+    carts = db.relationship("Cart", secondary=cart_product, back_populates="products")
+    medication_list = db.relationship("Medication_list", secondary=list_product, back_populates="products")
+
 
     def __init__(self, name, description, category, brand, price, quantity, available, image):
         self.name = name
