@@ -35,4 +35,18 @@ class Request_Product(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+
     
+    def update(self, request_status, quantity):
+        print(f"this is the self of update {self}")
+        self.request_status = request_status
+        self.quantity = quantity
+        db.session.commit()
+        return self
+    
+    @classmethod
+    def delete_by_id(cls, id):
+        record = cls.query.get_or_404(id, description=f'Record with id:{id} is not available')
+        db.session.delete(record)
+        db.session.commit()
+        return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
