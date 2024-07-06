@@ -30,3 +30,14 @@ class check_Request(Resource):
     def delete(self, id):
         response = Request_Product.delete_by_id(id)
         return response
+
+class check_Request(Resource):
+    def get(self, id):
+        data= Request_Product.find_by_id(id)
+        return data.json()
+    
+    def put(self, id):
+        data = request.get_json()
+        request_product = Request_Product.find_by_id(id)
+        request_product.update(**data)
+        return request_product.json(), 200

@@ -17,7 +17,7 @@ from resources.medication_list import MedicationLists, SingleMedicationList
 from resources.message import Messages
 from resources.request_product import Request_Products , check_Request
 from resources.product import Products , oneProduct
-from resources.order import Orders, SingleOrder
+
 
 app = Flask(__name__)
 api = Api(app)

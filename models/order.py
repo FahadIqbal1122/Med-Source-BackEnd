@@ -8,6 +8,9 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     # product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     total_amount = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
+    # products = db.relationship('Product',cascade="all" , back_populates='order')
 
     def __init__(self, user_id, total_amount):
         self.user_id = user_id
@@ -31,7 +34,8 @@ class Order(db.Model):
     
     @classmethod
     def find_by_id(cls, id):
-        return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+        order = Order.query.filter_by(id=id).first()
+        return order
     
     @classmethod
     def delete_by_id(cls, id):

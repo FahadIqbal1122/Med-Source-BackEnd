@@ -35,7 +35,8 @@ class Request_Product(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
-    
+
+    @classmethod
     def update(self, request_status, quantity):
         print(f"this is the self of update {self}")
         self.request_status = request_status
