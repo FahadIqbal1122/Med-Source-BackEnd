@@ -30,4 +30,5 @@ class SingleUser(Resource):
         updated = User.update_user(id)
         return updated
         return user.json(), 201
+
     
