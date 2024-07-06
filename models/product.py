@@ -61,7 +61,7 @@ class Product(db.Model):
         else:
             raise ValueError(f"Product with ID {id} not found.")
         
-    def update(self, name, description, category, price, quantity):
+    def update(self, name, description, price, quantity):
         print(f"this is the self of update {self}")
         self.name= name
         self.description = description
