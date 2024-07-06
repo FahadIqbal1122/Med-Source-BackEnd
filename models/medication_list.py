@@ -22,7 +22,7 @@ class MedicationList(db.Model):
     def json(self):
         return {"id": self.id,
             "user_id": self.user_id,
-            # "product_id": self.product_id,
+            "products": [product.json() for product in self.products],
             "total_amount": self.total_amount,
             "created_at": str(self.created_at),
             "updated_at": str(self.updated_at)}
