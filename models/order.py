@@ -1,5 +1,6 @@
 from datetime import datetime
 from models.db import db
+from flask import request
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -31,3 +32,21 @@ class Order(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+    
+    @classmethod
+    def delete_by_id(cls, id):
+        order = cls.find_by_id(id)
+        if order:
+            db.session.delete(order)
+            db.session.commit()
+            return True
+        else:
+            raise ValueError(f"Order with ID {id} not found.")
+        
+    @classmethod
+    def update_order(cls, id):
+        order = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+        data = request.get_json()
+        order.total_amount = data['total_amount']
+        db.session.commit()
+        return order.json()

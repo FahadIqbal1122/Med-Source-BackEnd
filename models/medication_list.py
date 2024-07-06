@@ -1,5 +1,6 @@
 from datetime import datetime
 from models.db import db
+from flask import request
 
 class MedicationList(db.Model):
     __tablename__ = 'medication_list'
@@ -35,3 +36,21 @@ class MedicationList(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+    
+    @classmethod
+    def delete_by_id(cls, id):
+        medication_list = cls.find_by_id(id)
+        if medication_list:
+            db.session.delete(medication_list)
+            db.session.commit()
+            return True
+        else:
+            raise ValueError(f"Medication List with ID {id} not found.")
+        
+    @classmethod
+    def update_medication_list(cls, id):
+        medication_list = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+        data = request.get_json()
+        medication_list.total_amount = data['total_amount']
+        db.session.commit()
+        return medication_list.json()
