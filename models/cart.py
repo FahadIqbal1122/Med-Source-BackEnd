@@ -13,7 +13,7 @@ class Cart(db.Model):
 
     def __init__(self, product_id, total_amount):
         #self.user_id = user_id
-        self.product_id = product_id
+        self.products = product_id
         self.total_amount = total_amount
 
     def json(self):
