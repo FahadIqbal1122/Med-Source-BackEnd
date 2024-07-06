@@ -1,24 +1,25 @@
 from datetime import datetime
 from models.db import db
 from flask import request
+from models.cartandproductsassoc import cart_product
 
 class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    #user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     # product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     total_amount = db.Column(db.Float, nullable=False)
-    products = db.relationship("Product", back_populates="product")
+    products = db.relationship("Product", secondary=cart_product, back_populates="carts")
 
-    def __init__(self, user_id, total_amount):
-        self.user_id = user_id
-        # self.product_id = product_id
+    def __init__(self, product_id, total_amount):
+        #self.user_id = user_id
+        self.product_id = product_id
         self.total_amount = total_amount
 
     def json(self):
         return {"id": self.id,
-            "user_id": self.user_id,
-            # "product_id": self.product_id,
+            #"user_id": self.user_id,
+            "products": [product.json() for product in self.products],
             "total_amount": self.total_amount}
     
     def create(self):
