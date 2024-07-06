@@ -1,5 +1,6 @@
 from datetime import datetime
 from models.db import db
+from flask import request
 
 class Cart(db.Model):
     __tablename__ = 'cart'
@@ -31,3 +32,21 @@ class Cart(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+
+    @classmethod
+    def delete_by_id(cls, id):
+        cart = cls.find_by_id(id)
+        if cart:
+            db.session.delete(cart)
+            db.session.commit()
+            return True
+        else:
+            raise ValueError(f"Cart with ID {id} not found.")
+        
+    @classmethod
+    def update_cart(cls, id):
+        cart = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+        data = request.get_json()
+        cart.total_amount = data['total_amount']
+        db.session.commit()
+        return cart.json()

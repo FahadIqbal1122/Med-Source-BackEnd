@@ -15,3 +15,15 @@ class Users(Resource):
         user.create()
         return user.json(), 201
     
+class SingleUser(Resource):
+    def get(self, id):
+        data = User.find_by_id(id)
+        return data.json()
+
+    def delete(self, id):
+        data = User.delete_user(id)
+        return data
+
+    def put(self, id):
+        updated = User.update_user(id)
+        return updated
