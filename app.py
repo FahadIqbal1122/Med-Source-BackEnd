@@ -19,7 +19,7 @@ from resources.request_product import Request_Products , check_Request
 from resources.product import Products , oneProduct
 from resources.order import Orders, SingleOrder
 from resources.request_product import Request_Products , check_Request
-from resources.product import Products
+from resources.product import Products , oneProduct
 from resources.order import Orders
 
 app = Flask(__name__)
