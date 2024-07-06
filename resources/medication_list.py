@@ -14,3 +14,12 @@ class MedicationLists(Resource):
         medication_list = MedicationList(**data)
         medication_list.create()
         return medication_list.json(), 201
+    
+class SingleMedicationList(Resource):
+    def get(self, id):
+        data = MedicationList.find_by_id(id)
+        return data.json()
+    
+    def delete(self, id):
+        data = MedicationList.delete_by_id(id)
+        return data
