@@ -23,3 +23,10 @@ class SingleMedicationList(Resource):
     def delete(self, id):
         data = MedicationList.delete_by_id(id)
         return data
+    
+    def put(self, id):
+        print(request.data)
+        data = request.get_json()
+        medication_list = MedicationList(**data)
+        medication_list.update_medication_list(id)
+        return medication_list.json()
