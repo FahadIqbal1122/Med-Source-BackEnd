@@ -35,3 +35,4 @@ class Request_Product(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+    

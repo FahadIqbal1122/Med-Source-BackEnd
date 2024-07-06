@@ -15,6 +15,8 @@ class Users(Resource):
         user.create()
         return user.json(), 201
     
+
+    
 class SingleUser(Resource):
     def get(self, id):
         data = User.find_by_id(id)
