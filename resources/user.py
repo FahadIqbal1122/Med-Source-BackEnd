@@ -27,3 +27,5 @@ class SingleUser(Resource):
     def put(self, id):
         updated = User.update_user(id)
         return updated
+        return user.json(), 201
+    
