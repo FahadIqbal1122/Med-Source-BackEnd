@@ -12,8 +12,11 @@ class Product(db.Model):
     quantity = db.Column(db.Integer)
     available = db.Column(db.Boolean)
     image = db.Column(db.String(255))
+    cart_id = db.Column(db.Integer, db.ForeignKey('cart.id'), nullable = False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
+    cart = db.relationship("Cart", back_populates = "products")
+
 
     def __init__(self, name, description, category, brand, price, quantity, available, image):
         self.name = name

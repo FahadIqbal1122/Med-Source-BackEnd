@@ -8,6 +8,7 @@ class Cart(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     # product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     total_amount = db.Column(db.Float, nullable=False)
+    products = db.relationship("Product", back_populates="product")
 
     def __init__(self, user_id, total_amount):
         self.user_id = user_id
