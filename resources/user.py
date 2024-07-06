@@ -14,3 +14,4 @@ class Users(Resource):
         user = User(**data)
         user.create()
         return user.json(), 201
+    
