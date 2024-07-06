@@ -15,7 +15,7 @@ from resources.user import Users, SingleUser
 from resources.cart import Carts, SingleCart
 from resources.medication_list import MedicationLists, SingleMedicationList
 from resources.message import Messages
-from resources.request_product import Request_Products
+from resources.request_product import Request_Products , check_Request
 from resources.product import Products
 from resources.order import Orders, SingleOrder
 
@@ -37,6 +37,7 @@ api.add_resource(MedicationLists, '/medication_lists')
 api.add_resource(SingleMedicationList, '/medication_lists/<int:id>')
 api.add_resource(Messages, '/messages')
 api.add_resource(Request_Products, '/request')
+api.add_resource(check_Request , '/request/<int:id>')
 api.add_resource(Products, '/products')
 api.add_resource(Orders, '/orders')
 api.add_resource(SingleOrder, '/orders/<int:id>')
