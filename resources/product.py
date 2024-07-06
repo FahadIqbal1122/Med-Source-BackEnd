@@ -14,3 +14,8 @@ class Products(Resource):
         product = Product(**data)
         product.create()
         return product.json(), 201
+    
+class oneProduct(Resource):
+    def get(self, id):
+        data= Product.find_by_id(id)
+        return data.json()
