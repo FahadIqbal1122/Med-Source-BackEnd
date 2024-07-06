@@ -11,7 +11,10 @@ class MedicationLists(Resource):
     
     def post(self):
         data = request.get_json()
-        medication_list = MedicationList(**data)
+        product_ids = data.get('product_ids', [])
+        user_id = data.get('user_id')
+        total_amount = data.get('total_amount')
+        medication_list = MedicationList(user_id, total_amount, product_ids)
         medication_list.create()
         return medication_list.json(), 201
     
