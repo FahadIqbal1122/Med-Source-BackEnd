@@ -60,3 +60,10 @@ class Product(db.Model):
             return True
         else:
             raise ValueError(f"Product with ID {id} not found.")
+        
+    def update(self, request_status, quantity):
+        print(f"this is the self of update {self}")
+        self.request_status = request_status
+        self.quantity = quantity
+        db.session.commit()
+        return self
