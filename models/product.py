@@ -7,7 +7,7 @@ class Product(db.Model):
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     category = db.Column(db.String(80))
-    brand = db.column(db.String(80))
+    brand = db.Column(db.String(80))
     price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer)
     available = db.Column(db.Boolean)
