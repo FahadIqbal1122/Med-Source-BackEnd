@@ -2,6 +2,7 @@ from datetime import datetime
 from models.db import db
 from flask import request
 from models.cartandproductsassoc import cart_product
+from models.product import Product
 
 class Cart(db.Model):
     __tablename__ = 'cart'
@@ -13,8 +14,8 @@ class Cart(db.Model):
 
     def __init__(self, product_id, total_amount):
         #self.user_id = user_id
-        self.products = product_id
         self.total_amount = total_amount
+        self.products = [Product.find_by_id(pid) for pid in product_id]
 
     def json(self):
         return {"id": self.id,
