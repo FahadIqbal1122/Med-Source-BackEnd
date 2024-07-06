@@ -15,15 +15,9 @@ from resources.user import Users, SingleUser
 from resources.cart import Carts, SingleCart
 from resources.medication_list import MedicationLists, SingleMedicationList
 from resources.message import Messages
-from resources.request_product import Request_Products , check_Request , check_Request
-from resources.product import Products , oneProduct , oneProduct
-from resources.order import Orders, SingleOrder
 from resources.request_product import Request_Products , check_Request
 from resources.product import Products , oneProduct
-from resources.order import Orders
-from resources.request_product import Request_Products , check_Request
-from resources.product import Products , oneProduct
-from resources.order import Orders
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -43,7 +37,6 @@ api.add_resource(MedicationLists, '/medication_lists')
 api.add_resource(SingleMedicationList, '/medication_lists/<int:id>')
 api.add_resource(Messages, '/messages')
 api.add_resource(Request_Products, '/request')
-api.add_resource(check_Request , '/request/<int:id>')
 api.add_resource(check_Request , '/request/<int:id>')
 api.add_resource(Products, '/products')
 api.add_resource(oneProduct, '/products/<int:id>')
