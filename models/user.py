@@ -13,7 +13,10 @@ class User(db.Model):
     #message_list = db.Column(db.ARRAY(db.String))
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
+    cart = db.relationship("Cart", back_populates="user", uselist=False)
+    orders = db.relationship("Order", back_populates="user", cascade="all, delete-orphan")
     requests = db.relationship("Request_Product", cascade="all", back_populates="user")
+
 
     def __init__(self, first_name, last_name, email, password, phone_number):
         self.first_name= first_name

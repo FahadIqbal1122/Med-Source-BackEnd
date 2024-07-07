@@ -12,7 +12,7 @@ class Order(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
     products = db.relationship("Product", secondary=order_product, back_populates="orders")
-
+    user = db.relationship("User", back_populates="orders")
     def __init__(self, user_id, product_id, total_amount):
         self.user_id = user_id
         self.products = [Product.find_by_id(pid) for pid in product_id]
