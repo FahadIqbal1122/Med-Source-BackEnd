@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask import request
 from models.cart import Cart
 from models.db import db
+from sqlalchemy.orm import joinedload
 
 class Carts(Resource):
     def get(self):

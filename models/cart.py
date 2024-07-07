@@ -4,6 +4,8 @@ from flask import request
 from models.cartandproductsassoc import cart_product
 from models.product import Product
 
+
+
 class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
@@ -12,10 +14,9 @@ class Cart(db.Model):
     products = db.relationship("Product", secondary=cart_product, back_populates="carts")
     user = db.relationship("User", back_populates="cart", uselist=True)
 
-    def __init__(self,user_id, product_id, total_amount):
+    def __init__(self,user_id, product_id):
         self.user_id = user_id
         self.products = [Product.find_by_id(pid) for pid in product_id]
-        self.total_amount = total_amount
 
     def json(self):
         return {"id": self.id,
