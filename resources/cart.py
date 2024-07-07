@@ -11,9 +11,10 @@ class Carts(Resource):
     
     def post(self):
         data = request.get_json()
-        product_ids = data.get('product_ids', [])
+        user_id = data.get("user_id")
+        product_id = data.get('product_id', [])
         total_amount = data.get('total_amount')
-        cart = Cart(product_ids, total_amount)
+        cart = Cart(user_id, product_id, total_amount)
         cart.create()
         return cart.json(), 201
     
