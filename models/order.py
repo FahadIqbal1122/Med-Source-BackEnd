@@ -57,7 +57,7 @@ class Order(db.Model):
         for prod in existing_products:
             order.products.remove(prod)
         
-        for pid in data.get('product_id', []):
+        for pid in data.get('product_ids', []):
             product = db.get_or_404(Product, pid, description=f'Product with id:{pid} is not available')
             order.products.append(product)
 
