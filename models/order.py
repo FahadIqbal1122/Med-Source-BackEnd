@@ -14,10 +14,10 @@ class Order(db.Model):
     products = db.relationship("Product", secondary=order_product, back_populates="orders")
     user = db.relationship("User", back_populates="orders")
 
-    def __init__(self, user_id, product_id, total_amount):
+    def __init__(self, user_id, product_id, total_amount=0.0):
         self.user_id = user_id
         self.products = [Product.find_by_id(pid) for pid in product_id]
-        self.total_amount = 0.0
+        self.total_amount = sum([product.price for product in self.products])
 
     def json(self):
         return {"id": self.id,
