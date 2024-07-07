@@ -14,10 +14,10 @@ class Cart(db.Model):
     products = db.relationship("Product", secondary=cart_product, back_populates="carts")
     user = db.relationship("User", back_populates="cart", uselist=True)
 
-    def __init__(self,user_id,total_amount, product_id):
+    def __init__(self,user_id, product_id):
         self.user_id = user_id
-        self.total_amount = total_amount
         self.products = [Product.find_by_id(pid) for pid in product_id]
+        self.calculate_total_amount()
 
     def json(self):
         return {"id": self.id,
@@ -30,6 +30,13 @@ class Cart(db.Model):
         db.session.commit()
         return self
     
+    def calculate_total_amount(self):
+        self.total_amount = sum(product.price * product.quantity for product in self.products)
+
+    def update_products(self, product_ids):
+        self.products = [Product.find_by_id(pid) for pid in product_ids]
+        self.calculate_total_amount()
+        
     @classmethod
     def find_all(cls):
         return Cart.query.all()
@@ -52,6 +59,7 @@ class Cart(db.Model):
     def update_cart(cls, id):
         cart = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
         data = request.get_json()
-        cart.total_amount = data['total_amount']
+        product_ids = data.get('product_id', [])
+        cart.update_products(product_ids)
         db.session.commit()
         return cart.json()

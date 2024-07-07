@@ -15,12 +15,7 @@ class Carts(Resource):
         data = request.get_json()
         user_id = data.get("user_id")
         product_id = data.get('product_id', [])
-        total_amount = 0.0
-        for pid in product_id:
-            product = Product.find_by_id(pid)
-            if product:
-                total_amount += product.price * product.quantity
-        cart = Cart(user_id,total_amount, product_id)
+        cart = Cart(user_id, product_id)
         cart.create()
         return cart.json(), 201
     
