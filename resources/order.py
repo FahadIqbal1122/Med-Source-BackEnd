@@ -12,9 +12,11 @@ class Orders(Resource):
     
     def post(self):
         data = request.get_json()
-        cart = Order(**data)
-        cart.create()
-        return cart.json(), 201
+        product_ids = data.get('product_ids', [])
+        total_amount = data.get('total_amount')
+        order = Order(product_ids, total_amount)
+        order.create()
+        return order.json(), 201
     
 class SingleOrder(Resource):
     def get(self, id):

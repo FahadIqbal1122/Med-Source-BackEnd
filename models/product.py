@@ -2,6 +2,8 @@ from datetime import datetime
 from models.db import db
 from models.cartandproductsassoc import cart_product
 from models.listandprodassoc import list_product
+from models.orderandproductsassocs import order_product
+from models.requestandproductassocs import request_product_assoc
 
 class Product(db.Model):
     __tablename__ = 'products'
@@ -18,7 +20,9 @@ class Product(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
     carts = db.relationship("Cart", secondary=cart_product, back_populates="products")
-    medication_list = db.relationship("Medication_list", secondary=list_product, back_populates="products")
+    medication_list = db.relationship("MedicationList", secondary=list_product, back_populates="products")
+    orders = db.relationship("Order", secondary=order_product, back_populates="products")
+    requests= db.relationship("Request_Product", secondary=request_product_assoc, back_populates="products")
 
 
     def __init__(self, name, description, category, brand, price, quantity, available, image):
@@ -66,7 +70,8 @@ class Product(db.Model):
             return True
         else:
             raise ValueError(f"Product with ID {id} not found.")
-        
+
+    @classmethod  
     def update(self, name, description, price, quantity):
         print(f"this is the self of update {self}")
         self.name= name

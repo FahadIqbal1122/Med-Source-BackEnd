@@ -1,26 +1,27 @@
 from datetime import datetime
 from models.db import db
 from flask import request
+from models.orderandproductsassocs import order_product
+import models.product as Product
 
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    # product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     total_amount = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
-    # products = db.relationship('Product',cascade="all" , back_populates='order')
+    products = db.relationship("Product", secondary=order_product, back_populates="orders")
 
-    def __init__(self, user_id, total_amount):
+    def __init__(self, user_id, product_id, total_amount):
         self.user_id = user_id
-        # self.product_id = product_id
+        self.products = [Product.find_by_id(pid) for pid in product_id]
         self.total_amount = total_amount
 
     def json(self):
         return {"id": self.id,
             "user_id": self.user_id,
-            # "product_id": self.product_id,
+            "products": [product.json() for product in self.products],
             "total_amount": self.total_amount}
     
     def create(self):

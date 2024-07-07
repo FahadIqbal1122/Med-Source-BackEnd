@@ -4,6 +4,7 @@ from flask import request
 from models.listandprodassoc import list_product
 from models.product import Product
 
+
 class MedicationList(db.Model):
     __tablename__ = 'medication_list'
     id = db.Column(db.Integer, primary_key=True)
@@ -12,9 +13,9 @@ class MedicationList(db.Model):
     total_amount = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
-    products = db.relationship("Product", secondary=list_product, back_populates="medication_lists")
+    products = db.relationship("Product", secondary=list_product, back_populates="medication_list")
 
-    def __init__(self, user_id, total_amount,product_id):
+    def __init__(self, user_id, total_amount, product_id):
         self.user_id = user_id
         self.products = [Product.find_by_id(pid) for pid in product_id]
         self.total_amount = total_amount
