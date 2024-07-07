@@ -24,7 +24,7 @@ app = Flask(__name__)
 api = Api(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://osama:admin@localhost:5432/pharmacy_db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://fahad:admin@localhost:5432/pharmacy_db"
 app.config['SQLALCHEMY_ECHO'] = True
 
 db.init_app(app)
