@@ -54,6 +54,15 @@ class MedicationList(db.Model):
     def update_medication_list(cls, id):
         medication_list = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
         data = request.get_json()
-        medication_list.total_amount = data['total_amount']
+        existing_products = [db.get_or_404(Product, pid.id, description=f'Product with id:{pid.id} is not available') for pid in medication_list.products]
+        for prod in existing_products:
+            medication_list.products.remove(prod)
+
+        for pid in data.get('product_ids', []):
+            product = db.get_or_404(Product, pid, description=f'Product with id:{pid} is not available')
+            medication_list.products.append(product)
+
+        medication_list.total_amount = sum([product.price for product in medication_list.products])
+
         db.session.commit()
         return medication_list.json()
