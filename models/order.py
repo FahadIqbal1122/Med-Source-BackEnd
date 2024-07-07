@@ -65,8 +65,3 @@ class Order(db.Model):
 
         db.session.commit()
         return order.json()
-        # order = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
-        # data = request.get_json()
-        # order.total_amount = data['total_amount']
-        # db.session.commit()
-        # return order.json()
