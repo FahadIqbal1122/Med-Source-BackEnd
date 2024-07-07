@@ -10,9 +10,9 @@ class Cart(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     total_amount = db.Column(db.Float, nullable=False)
     products = db.relationship("Product", secondary=cart_product, back_populates="carts")
-    user = db.relationship("User", back_populates="cart", uselist=False)
+    user = db.relationship("User", back_populates="cart", uselist=True)
 
-    def __init__(self, user_id, product_id, total_amount):
+    def __init__(self,user_id, product_id, total_amount):
         self.user_id = user_id
         self.products = [Product.find_by_id(pid) for pid in product_id]
         self.total_amount = total_amount
