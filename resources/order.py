@@ -12,9 +12,10 @@ class Orders(Resource):
     
     def post(self):
         data = request.get_json()
+        user_id = data.get('user_id')
         product_ids = data.get('product_ids', [])
         total_amount = data.get('total_amount')
-        order = Order(product_ids, total_amount)
+        order = Order(user_id,product_ids, total_amount)
         order.create()
         return order.json(), 201
     

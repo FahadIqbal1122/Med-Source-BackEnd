@@ -13,7 +13,9 @@ class Request_Products(Resource):
     def post(self):
         data = request.get_json()
         product_ids = data.get('product_ids', [])
-        cart = Request_Product(**data, product_ids=product_ids)
+        quantity = data.get('quantity')
+        request_status = data.get('request_status')
+        cart = Request_Product(request_status, quantity, product_ids)
         cart.create()
         return cart.json(), 201
 

@@ -22,7 +22,7 @@ class Product(db.Model):
     carts = db.relationship("Cart", secondary=cart_product, back_populates="products")
     medication_list = db.relationship("MedicationList", secondary=list_product, back_populates="products")
     orders = db.relationship("Order", secondary=order_product, back_populates="products")
-    requests= db.relationship("Request_Product", secondary=request_product_assoc, back_populates="products")
+    request_products= db.relationship("Request_Product", secondary=request_product_assoc, back_populates="products")
 
 
     def __init__(self, name, description, category, brand, price, quantity, available, image):

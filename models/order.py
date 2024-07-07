@@ -2,7 +2,7 @@ from datetime import datetime
 from models.db import db
 from flask import request
 from models.orderandproductsassocs import order_product
-import models.product as Product
+from models.product import Product
 
 class Order(db.Model):
     __tablename__ = 'order'
