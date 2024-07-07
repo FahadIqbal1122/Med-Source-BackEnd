@@ -2,7 +2,6 @@ from flask_restful import Resource
 from flask import request
 from models.order import Order
 from models.db import db
-from sqlalchemy.orm import joinedload
 
 class Orders(Resource):
     def get(self):
@@ -21,9 +20,8 @@ class Orders(Resource):
     
 class SingleOrder(Resource):
     def get(self, id):
-        order = Order.query.options(joinedload(Order.products)).filter_by(id=id).first()
-        products = [product.json() for product in order.products]
-        return {**order.json(), "products": products}
+        data = Order.find_by_id(id)
+        return data.json()
     
     def delete(self, id):
         data = Order.delete_by_id(id)
@@ -32,6 +30,9 @@ class SingleOrder(Resource):
     def put(self, id):
         print(request.data)
         data = request.get_json()
-        order = Order(**data)
+        product_ids = data.get('product_ids', [])
+        user_id = data.get('user_id')
+        total_amount = data.get('total_amount')
+        order = Order(user_id, product_ids, total_amount)
         order.update_order(id)
         return order.json()

@@ -13,10 +13,11 @@ class Order(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
     products = db.relationship("Product", secondary=order_product, back_populates="orders")
     user = db.relationship("User", back_populates="orders")
-    def __init__(self, user_id, product_id, total_amount):
+
+    def __init__(self, user_id, product_id, total_amount=0.0):
         self.user_id = user_id
         self.products = [Product.find_by_id(pid) for pid in product_id]
-        self.total_amount = total_amount
+        self.total_amount = sum([product.price for product in self.products])
 
     def json(self):
         return {"id": self.id,
@@ -52,6 +53,15 @@ class Order(db.Model):
     def update_order(cls, id):
         order = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
         data = request.get_json()
-        order.total_amount = data['total_amount']
+        existing_products = [db.get_or_404(Product, pid.id, description=f'Product with id:{pid.id} is not available') for pid in order.products]
+        for prod in existing_products:
+            order.products.remove(prod)
+        
+        for pid in data.get('product_ids', []):
+            product = db.get_or_404(Product, pid, description=f'Product with id:{pid} is not available')
+            order.products.append(product)
+
+        order.total_amount = sum([product.price for product in order.products])
+
         db.session.commit()
         return order.json()

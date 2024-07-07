@@ -9,7 +9,6 @@ class MedicationList(db.Model):
     __tablename__ = 'medication_list'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    # product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     total_amount = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
@@ -18,7 +17,7 @@ class MedicationList(db.Model):
     def __init__(self, user_id, total_amount, product_id):
         self.user_id = user_id
         self.products = [Product.find_by_id(pid) for pid in product_id]
-        self.total_amount = total_amount
+        self.total_amount = 0.0
 
     def json(self):
         return {"id": self.id,
@@ -55,6 +54,15 @@ class MedicationList(db.Model):
     def update_medication_list(cls, id):
         medication_list = db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
         data = request.get_json()
-        medication_list.total_amount = data['total_amount']
+        existing_products = [db.get_or_404(Product, pid.id, description=f'Product with id:{pid.id} is not available') for pid in medication_list.products]
+        for prod in existing_products:
+            medication_list.products.remove(prod)
+
+        for pid in data.get('product_ids', []):
+            product = db.get_or_404(Product, pid, description=f'Product with id:{pid} is not available')
+            medication_list.products.append(product)
+
+        medication_list.total_amount = sum([product.price for product in medication_list.products])
+
         db.session.commit()
         return medication_list.json()
