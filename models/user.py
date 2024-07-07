@@ -1,6 +1,7 @@
 from datetime import datetime
 from models.db import db
 from flask import request
+from models.order import Order
 
 class User(db.Model):
     __tablename__ = 'users'
