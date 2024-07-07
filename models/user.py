@@ -15,7 +15,8 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
     cart = db.relationship("Cart", back_populates="user", uselist=False)
 
-    def __init__(self, first_name, last_name, email, password, phone_number):
+    def __init__(self,user_id, first_name, last_name, email, password, phone_number):
+        self.user_id = user_id
         self.first_name= first_name
         self.last_name = last_name
         self.email = email
