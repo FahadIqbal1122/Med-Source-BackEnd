@@ -3,6 +3,8 @@ from flask import request
 from models.user import User
 from models.db import db
 from sqlalchemy.orm import joinedload
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token
 
 class Users(Resource):
     def get(self):
@@ -12,11 +14,25 @@ class Users(Resource):
     
     def post(self):
         data = request.get_json()
-        user = User(**data)
+        hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
+        user = User(
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            email=data['email'],
+            password=hashed_password,
+            phone_number=data['phone_number']
+        )
         user.create()
         return user.json(), 201
     
-
+class Login(Resource):
+    def post(self):
+        data = request.get_json()
+        user = User.query.filter_by(email=data['email']).first()
+        if user and check_password_hash(user.digest, data['password']):
+            access_token = create_access_token(identity=user.id)
+            return {"access_token": access_token}, 200
+        return {"message": "Invalid email or password"}, 401
     
 class SingleUser(Resource):
     def get(self, id):
