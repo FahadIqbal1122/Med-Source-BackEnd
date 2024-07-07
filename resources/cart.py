@@ -20,7 +20,7 @@ class Carts(Resource):
             product = Product.find_by_id(pid)
             if product:
                 total_amount += product.price * product.quantity
-        cart = Cart(user_id, product_id)
+        cart = Cart(user_id,total_amount, product_id)
         cart.create()
         return cart.json(), 201
     
