@@ -2,6 +2,8 @@ from flask_restful import Resource
 from flask import request
 from models.cart import Cart
 from models.db import db
+from sqlalchemy.orm import joinedload
+from models.product import Product
 
 class Carts(Resource):
     def get(self):
@@ -13,8 +15,7 @@ class Carts(Resource):
         data = request.get_json()
         user_id = data.get("user_id")
         product_id = data.get('product_id', [])
-        total_amount = data.get('total_amount')
-        cart = Cart(user_id, product_id, total_amount)
+        cart = Cart(user_id, product_id)
         cart.create()
         return cart.json(), 201
     
