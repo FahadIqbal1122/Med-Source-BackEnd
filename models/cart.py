@@ -31,7 +31,7 @@ class Cart(db.Model):
         return self
     
     def calculate_total_amount(self):
-        self.total_amount = sum(product.price * product.quantity for product in self.products)
+        self.total_amount = sum(product.price for product in self.products)
 
     def update_products(self, product_ids):
         self.products = [Product.find_by_id(pid) for pid in product_ids]
