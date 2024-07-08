@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_cors import CORS
+#from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
 from models.db import db
@@ -26,7 +26,7 @@ from resources.order import Orders, SingleOrder
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+#CORS(app)
 api = Api(app)
 
 db_uri = os.getenv('SQLALCHEMY_DATABASE_URI')
