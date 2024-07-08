@@ -1,11 +1,16 @@
 from flask_restful import Resource
-from flask import request
+from flask import request, jsonify, make_response
 from models.user import User
 from models.db import db
 from sqlalchemy.orm import joinedload
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 
+class GetUser(Resource):
+    @jwt_required()
+    def get(self):
+        user = get_jwt_identity()
+        return {"logged_user": user}, 200
 class Users(Resource):
     def get(self):
         data = User.find_all()
@@ -33,7 +38,7 @@ class Login(Resource):
             access_token = create_access_token(identity=user.id)
             return {"access_token": access_token}, 200
         return {"message": "Invalid email or password"}, 401
-    
+        
 class SingleUser(Resource):
     def get(self, id):
         data = User.find_by_id(id)

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
 from models.db import db
@@ -12,7 +13,7 @@ from models.medication_list import MedicationList
 from models.product import Product
 from models.order import Order
 
-from resources.user import Users, SingleUser, Login
+from resources.user import Users, SingleUser, Login, GetUser
 from resources.cart import Carts, SingleCart
 from resources.medication_list import MedicationLists, SingleMedicationList
 from resources.message import Messages
@@ -22,6 +23,7 @@ from resources.order import Orders, SingleOrder
 
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -33,6 +35,7 @@ db.init_app(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
+api.add_resource(GetUser, '/profile')
 api.add_resource(Users, '/users')
 api.add_resource(Login, '/login')
 api.add_resource(SingleUser, '/users/<int:id>')
