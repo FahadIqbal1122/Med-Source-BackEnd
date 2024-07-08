@@ -4,6 +4,11 @@ from models.message import Message
 from models.db import db
 
 class Messages(Resource):
+
+    def get(self):
+        messages = Message.find_all()
+        return [message.json() for message in messages]
+
     def post(self):
         data = request.get_json()
         user_id = data.get('user_id')
