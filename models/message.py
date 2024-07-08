@@ -17,6 +17,7 @@ class Message(db.Model):
     def json(self):
         return {"id": self.id,
             "user_id": self.user_id,
+            "receiver_id": self.receiver_id,
             "Content": self.content,
             "timestamp": str(self.timestamp)}
     
