@@ -4,13 +4,11 @@ from models.message import Message
 from models.db import db
 
 class Messages(Resource):
-    def get(self):
-        data = Message.find_all()
-        results = [u.json() for u in data]
-        return results
-    
     def post(self):
         data = request.get_json()
-        cart = Message(**data)
-        cart.create()
-        return cart.json(), 201
+        user_id = data.get('user_id')
+        receiver_id = data.get('receiver_id')
+        content = data.get('content', '')
+        new_message = Message(user_id=user_id, receiver_id=receiver_id, content=content)
+        new_message.create()
+        return new_message.json(), 201
