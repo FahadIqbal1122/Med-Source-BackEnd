@@ -9,8 +9,16 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 class GetUser(Resource):
     @jwt_required()
     def get(self):
-        user = get_jwt_identity()
-        return {"logged_user": user}, 200
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if user:
+            return {
+                "logged_user": user_id,
+                "username": user.first_name,
+                "email": user.email
+            }, 200
+        else:
+            return {"message": "User not found"}, 404
 class Users(Resource):
     def get(self):
         data = User.find_all()
