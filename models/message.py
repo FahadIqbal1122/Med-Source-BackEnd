@@ -4,23 +4,21 @@ from models.db import db
 class Message(db.Model):
     __tablename__ = 'message'
     id = db.Column(db.Integer, primary_key=True)
-    #user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    # product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
-    #receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     content = db.Column(db.String(255))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __init__(self, content):
-        #self.user_id = user_id
-        # self.product_id = product_id
-        #self.receiver_id = receiver_id
+    def __init__(self,user_id, receiver_id, content=''):
+        self.user_id = user_id
+        self.receiver_id = receiver_id
         self.content = content
 
     def json(self):
         return {"id": self.id,
-            #"user_id": self.user_id,
-            #"receiver_id": self.receiver_id,
-            # "product_id": self.product_id,
-            "Content": self.content}
+            "user_id": self.user_id,
+            "Content": self.content,
+            "timestamp": str(self.timestamp)}
     
     def create(self):
         db.session.add(self)
