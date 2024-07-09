@@ -12,10 +12,8 @@ class Request_Product(db.Model):
     products = db.relationship("Product", secondary=request_product_assoc, back_populates="request_products")
     user = db.relationship("User", back_populates="requests")
 
-    def __init__(self, request_status, quantity, product_id, user_id):  
+    def __init__(self, product_id, user_id):  
         self.user_id = user_id
-        self.request_status = request_status
-        self.quantity = quantity
         self.products = [Product.find_by_id(pid) for pid in product_id]
 
     def json(self):
@@ -32,8 +30,11 @@ class Request_Product(db.Model):
     
     @classmethod
     def find_all(cls):
-
         return Request_Product.query.all()
+    
+    @classmethod
+    def find_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
     
     @classmethod
     def find_by_id(cls, id):
