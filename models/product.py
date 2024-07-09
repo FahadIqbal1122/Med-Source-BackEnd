@@ -72,11 +72,15 @@ class Product(db.Model):
             raise ValueError(f"Product with ID {id} not found.")
 
     @classmethod  
-    def update(self, name, description, price, quantity):
+    def update(self, name, description, price, quantity, category, brand, available, image):
         print(f"this is the self of update {self}")
         self.name= name
         self.description = description
         self.price = price
         self.quantity = quantity
+        self.category = category
+        self.brand= brand
+        self.available = available
+        self.image = image
         db.session.commit()
         return self
