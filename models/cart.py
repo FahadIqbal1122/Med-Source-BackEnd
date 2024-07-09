@@ -37,6 +37,10 @@ class Cart(db.Model):
         self.products = [Product.find_by_id(pid) for pid in product_ids]
         self.calculate_total_amount()
         
+    @classmethod    
+    def find_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
+    
     @classmethod
     def find_all(cls):
         return Cart.query.all()
