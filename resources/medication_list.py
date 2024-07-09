@@ -13,8 +13,7 @@ class MedicationLists(Resource):
         data = request.get_json()
         product_ids = data.get('product_ids', [])
         user_id = data.get('user_id')
-        total_amount = data.get('total_amount')
-        medication_list = MedicationList(user_id, total_amount, product_ids)
+        medication_list = MedicationList(user_id, product_ids)
         medication_list.create()
         return medication_list.json(), 201
     
@@ -28,11 +27,15 @@ class SingleMedicationList(Resource):
         return data
     
     def put(self, id):
-        print(request.data)
-        data = request.get_json()
-        product_ids = data.get('product_ids', [])
-        user_id = data.get('user_id')
-        total_amount = data.get('total_amount')
-        medication_list = MedicationList(user_id, total_amount, product_ids)
-        medication_list.update_medication_list(id)
-        return medication_list.json()
+        updated = MedicationList.update_medication_list(id)
+        return updated
+    
+    # def put(self, id):
+    #     print(request.data)
+    #     data = request.get_json()
+    #     product_ids = data.get('product_ids', [])
+    #     user_id = data.get('user_id')
+    #     total_amount = data.get('total_amount')
+    #     medication_list = MedicationList(user_id, total_amount, product_ids)
+    #     medication_list.update_medication_list(id)
+    #     return medication_list.json()
