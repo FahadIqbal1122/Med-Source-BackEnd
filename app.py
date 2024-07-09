@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 import os
 
 from resources.user import Users, SingleUser, Login, GetUser
-from resources.cart import Carts, SingleCart
+from resources.cart import Carts, SingleCart, DelSingleCart
 from resources.medication_list import MedicationLists, SingleMedicationList
 from resources.message import Messages
 from resources.request_product import Request_Products , check_Request
@@ -46,6 +46,7 @@ api.add_resource(Login, '/login')
 api.add_resource(SingleUser, '/users/<int:id>')
 api.add_resource(Carts, '/carts')
 api.add_resource(SingleCart, '/carts/<int:id>')
+api.add_resource(DelSingleCart, '/carts/<int:user_id>/<int:product_id>')
 api.add_resource(MedicationLists, '/medication_lists')
 api.add_resource(SingleMedicationList, '/medication_lists/<int:id>')
 api.add_resource(Messages, '/messages')
