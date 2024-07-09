@@ -22,7 +22,7 @@ class Request_Products(Resource):
 
 class check_Request(Resource):
     def get(self, id):
-        data= Request_Product.find_by_id(id)
+        data= Request_Product.find_by_user_id(id)
         return data.json()
     
     def put(self, id):
