@@ -21,13 +21,20 @@ class Carts(Resource):
     
 class SingleCart(Resource):
     def get(self, id):
-        data = Cart.find_by_id(id)
+        data = Cart.find_by_user_id(id)
+        print("This is a data ")
+        print (data)
         return data.json()
-
-    def delete(self, id):
-        data = Cart.delete_by_id(id)
-        return data
     
     def put(self, id):
         updated = Cart.update_cart(id)
         return updated
+    
+class DelSingleCart(Resource):
+    # def delete(self, user_id, product_id):
+    #     data = Cart.remove_from_cart(user_id, product_id)
+    #     return data
+    
+    def put(self, user_id):
+        remove = Cart.remove_from_cart(user_id)
+        return remove
