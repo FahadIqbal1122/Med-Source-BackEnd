@@ -11,7 +11,7 @@ class User(db.Model):
     email = db.Column(db.String(255))
     digest = db.Column(db.String(255))
     phone_number=db.Column(db.Integer)
-    #message_list = db.Column(db.ARRAY(db.String))
+    patient = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.now())
     cart = db.relationship("Cart", back_populates="user", uselist=False)
@@ -19,12 +19,13 @@ class User(db.Model):
     requests = db.relationship("Request_Product", cascade="all", back_populates="user")
 
 
-    def __init__(self, first_name, last_name, email, password, phone_number):
+    def __init__(self, first_name, last_name, email, password, phone_number, patient=False):
         self.first_name= first_name
         self.last_name = last_name
         self.email = email
         self.digest = password
         self.phone_number = phone_number
+        self.patient = patient
 
     def json(self):
         
@@ -33,6 +34,7 @@ class User(db.Model):
             "name": self.first_name,
             "email": self.email,
             "Mobile": self.phone_number,
+            "patient": self.patient,
             "created_at": str(self.created_at),
             "updated_at": str(self.updated_at)}
         
