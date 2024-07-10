@@ -52,7 +52,19 @@ class Product(db.Model):
         db.session.add(self)
         db.session.commit()
         return self
-    
+
+    def update(self, name, description, category, brand, price, quantity, available, image):
+        self.name = name
+        self.description = description
+        self.category = category
+        self.brand = brand
+        self.price = price
+        self.quantity = quantity
+        self.available = available
+        self.image = image
+        db.session.commit()
+        return self
+        
     @classmethod
     def find_all(cls):
         return Product.query.all()
@@ -70,17 +82,3 @@ class Product(db.Model):
             return True
         else:
             raise ValueError(f"Product with ID {id} not found.")
-
-    @classmethod  
-    def update(self, name, description, price, quantity, category, brand, available, image):
-        print(f"this is the self of update {self}")
-        self.name= name
-        self.description = description
-        self.price = price
-        self.quantity = quantity
-        self.category = category
-        self.brand= brand
-        self.available = available
-        self.image = image
-        db.session.commit()
-        return self
