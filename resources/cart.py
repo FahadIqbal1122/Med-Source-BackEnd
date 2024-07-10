@@ -24,11 +24,13 @@ class SingleCart(Resource):
         data = Cart.find_by_user_id(id)
         print("This is a data ")
         print (data)
-        return data
+        return data.json()
     
     def put(self, id):
         updated = Cart.update_cart(id)
-        return updated
+        if not updated:
+            return {"message": "Cart not found"}, 404
+        return updated.json()
     
 class DelSingleCart(Resource):
     # def delete(self, user_id, product_id):

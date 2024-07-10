@@ -4,8 +4,6 @@ from flask import request
 from models.cartandproductsassoc import cart_product
 from models.product import Product
 
-
-
 class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
@@ -14,16 +12,18 @@ class Cart(db.Model):
     products = db.relationship("Product", secondary=cart_product, back_populates="carts")
     user = db.relationship("User", back_populates="cart", uselist=True)
 
-    def __init__(self,user_id, product_id):
+    def __init__(self, user_id, product_id):
         self.user_id = user_id
         self.products = []
         self.calculate_total_amount()
 
     def json(self):
-        return {"id": self.id,
+        return {
+            "id": self.id,
             "user_id": self.user_id,
             "products": [product.json() for product in self.products],
-            "total_amount": self.total_amount}
+            "total_amount": self.total_amount
+        }
     
     def create(self):
         db.session.add(self)
@@ -36,19 +36,17 @@ class Cart(db.Model):
     def update_products(self, product_ids):
         new_products = [Product.find_by_id(pid) for pid in product_ids]
         self.products.extend(new_products)
+        self.calculate_total_amount()
 
     def remove_products(self, product_ids):
         for product_id in product_ids:
             product = Product.query.get(product_id)
-            if product:
-                if product in self.products:
-                    self.products.remove(product)
+            if product and product in self.products:
+                self.products.remove(product)
         
     @classmethod    
-    def find_by_user_id(cls, user_id):
-        temp=cls.query.filter_by(user_id=user_id).first()
-        print(temp)
-        return temp
+    def find_by_user_id(cls, id):
+        return cls.query.filter_by(user_id=id).first()
     
     @classmethod
     def find_all(cls):
@@ -56,41 +54,17 @@ class Cart(db.Model):
     
     @classmethod
     def find_by_id(cls, id):
-        return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+        return cls.query.filter_by(user_id=id).first()
 
-    # @classmethod
-    # def delete_by_id(cls, id):
-    #     cart = cls.find_by_id(id)
-    #     if cart:
-    #         db.session.delete(cart)
-    #         db.session.commit()
-    #         return True
-    #     else:
-    #         raise ValueError(f"Cart with ID {id} not found.")
-        
     @classmethod
-    def update_cart(cls,id):
+    def update_cart(cls, id):
         cart = cls.find_by_user_id(id)
+        if not cart:
+            return None
         data = request.get_json()
         product_ids = data.get('product_id', [])
         cart.update_products(product_ids)
         db.session.commit()
-        return cart.json()
+        return cart
     
-    # @classmethod
-    # def remove_from_cart(cls, user_id, product_id):
-    #     cart = cls.find_by_user_id(user_id)
-    #     if not cart:
-    #         return {"message": f"Cart for user ID {user_id} not found"}, 404
-    #     cart.remove_products(product_id)
-    #     db.session.commit()
-    #     return cart.json(), 200
-    
-    @classmethod
-    def remove_product(cls, user_id):
-        cart = cls.find_by_user_id(user_id)
-        data = request.get_json()
-        product_ids = data.get('product_id', [])
-        cart.remove_products(product_ids)  
-        db.session.commit()
-        return cart.json()
+   
