@@ -44,6 +44,7 @@ class Cart(db.Model):
         if product:
             if product in self.products:
                 self.products.remove(product)
+                self.calculate_total_amount()
                 return self
         
     @classmethod    
