@@ -11,7 +11,7 @@ class MedicationLists(Resource):
     
     def post(self):
         data = request.get_json()
-        product_ids = data.get('product_ids', [])
+        product_ids = data.get('product_id', [])
         user_id = data.get('user_id')
         medication_list = MedicationList(user_id, product_ids)
         medication_list.create()
@@ -19,15 +19,13 @@ class MedicationLists(Resource):
     
 class SingleMedicationList(Resource):
     def get(self, id):
-        data = MedicationList.find_by_id(id)
+        data = MedicationList.find_by_user_id(id)
         return data.json()
-    
-    def delete(self, id):
-        data = MedicationList.delete_by_id(id)
-        return data
     
     def put(self, id):
         updated = MedicationList.update_medication_list(id)
+        if not updated:
+            return {"message": "List not found"}, 404
         return updated
     
 class DelSingleMedicationList(Resource):
