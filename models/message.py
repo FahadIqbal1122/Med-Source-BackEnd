@@ -1,7 +1,7 @@
 from datetime import datetime
 from models.db import db
 
-class Message(db.Model):
+class UserMessage(db.Model):
     __tablename__ = 'message'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

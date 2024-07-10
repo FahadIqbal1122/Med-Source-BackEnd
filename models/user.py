@@ -30,8 +30,8 @@ class User(db.Model):
     def json(self):
         
         return {"id": self.id,
-            "name": self.first_name,
-            "name": self.first_name,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
             "email": self.email,
             "Mobile": self.phone_number,
             "patient": self.patient,
