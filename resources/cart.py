@@ -26,7 +26,9 @@ class SingleCart(Resource):
     
     def put(self, id):
         updated = Cart.update_cart(id)
-        return updated
+        if not updated:
+            return {"message": "Cart not found"}, 404
+        return updated.json()
     
 class DelSingleCart(Resource):
 
