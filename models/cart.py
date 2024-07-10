@@ -38,15 +38,18 @@ class Cart(db.Model):
         self.products.extend(new_products)
         self.calculate_total_amount()
 
-    def remove_products(self, product_ids):
-        for product_id in product_ids:
-            product = Product.query.get(product_id)
-            if product and product in self.products:
+    def remove_product(self, product_id):
+        product = Product.query.get(product_id)
+        print(product)
+        if product:
+            if product in self.products:
                 self.products.remove(product)
+                return self
         
     @classmethod    
-    def find_by_user_id(cls, id):
-        return cls.query.filter_by(user_id=id).first()
+    def find_by_user_id(cls, user_id):
+        temp=cls.query.filter_by(user_id=user_id).first()
+        return temp
     
     @classmethod
     def find_all(cls):
@@ -65,6 +68,13 @@ class Cart(db.Model):
         product_ids = data.get('product_id', [])
         cart.update_products(product_ids)
         db.session.commit()
-        return cart
+        return cart.json()
     
-   
+    @classmethod
+    def remove_from_cart(cls, user_id, product_id):
+        cart = cls.find_by_user_id(user_id)
+        if not cart:
+            return {"message": f"Cart for user ID {user_id} not found"}, 404
+        cart.remove_product(product_id)
+        db.session.commit()
+        return cart.json(), 200
