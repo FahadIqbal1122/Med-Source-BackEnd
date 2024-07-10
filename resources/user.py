@@ -15,7 +15,9 @@ class GetUser(Resource):
             return {
                 "logged_user": user_id,
                 "username": user.first_name,
-                "email": user.email
+                "email": user.email,
+                "phone_number": user.phone_number,
+                "patient": user.patient
             }, 200
         else:
             return {"message": "User not found"}, 404
@@ -33,7 +35,9 @@ class Users(Resource):
             last_name=data['last_name'],
             email=data['email'],
             password=hashed_password,
-            phone_number=data['phone_number']
+            phone_number=data['phone_number'],
+            patient=data['patient']
+
         )
         user.create()
         return user.json(), 201
