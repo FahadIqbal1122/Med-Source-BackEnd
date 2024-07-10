@@ -23,6 +23,7 @@ class SingleCart(Resource):
     def get(self, id):
         data = Cart.find_by_user_id(id)
         return data.json()
+  
     
     def put(self, id):
         updated = Cart.update_cart(id)

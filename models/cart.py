@@ -69,7 +69,7 @@ class Cart(db.Model):
         product_ids = data.get('product_id', [])
         cart.update_products(product_ids)
         db.session.commit()
-        return cart.json()
+        return cart
     
     @classmethod
     def remove_from_cart(cls, user_id, product_id):

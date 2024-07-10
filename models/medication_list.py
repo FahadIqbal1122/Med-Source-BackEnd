@@ -38,6 +38,7 @@ class MedicationList(db.Model):
     def update_products(self, product_ids):
         new_products = [Product.find_by_id(pid) for pid in product_ids]
         self.products.extend(new_products)
+        self.calculate_total_amount()
 
     def remove_product(self, product_id):
         product = Product.query.get(product_id)
@@ -59,13 +60,15 @@ class MedicationList(db.Model):
     
     @classmethod
     def find_by_id(cls, id):
-        return db.get_or_404(cls, id, description=f'Record with id:{id} is not available')
+        return cls.query.filter_by(user_id=id).first()
         
     @classmethod
     def update_medication_list(cls, id):
         medication_list = cls.find_by_user_id(id)
+        if not medication_list:
+            return None
         data = request.get_json()
-        product_ids = data.get('product_ids', [])
+        product_ids = data.get('product_id', [])
         medication_list.update_products(product_ids)
         db.session.commit()
         return medication_list.json()

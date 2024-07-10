@@ -22,6 +22,7 @@ class oneProduct(Resource):
     
     def put(self, id):
         data = request.get_json()
+        print(data)
         request_product = Product.find_by_id(id)
         request_product.update(**data)
         return request_product.json(), 200
