@@ -35,6 +35,9 @@ class DelSingleCart(Resource):
     #     data = Cart.remove_from_cart(user_id, product_id)
     #     return data
     
-    def put(self, user_id):
-        remove = Cart.remove_from_cart(user_id)
+    def put(self, user_id, product_id):
+        print(" ")
+        print(" --------------------------------------")
+        print(user_id)
+        remove = Cart.remove_from_cart(user_id,product_id)
         return remove

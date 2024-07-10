@@ -37,17 +37,24 @@ class Cart(db.Model):
         new_products = [Product.find_by_id(pid) for pid in product_ids]
         self.products.extend(new_products)
 
-    def remove_products(self, product_ids):
-        for product_id in product_ids:
-            product = Product.query.get(product_id)
-            if product:
-                if product in self.products:
-                    self.products.remove(product)
+    def remove_product(self, product_id):
+        product = Product.query.get(product_id)
+        print(" ")
+        print("====================== product")
+        print(product)
+        if product:
+            if product in self.products:
+                self.products.remove(product)
+                print(" ")
+                print("======================= self products")
+                return self
         
     @classmethod    
     def find_by_user_id(cls, user_id):
         temp=cls.query.filter_by(user_id=user_id).first()
+        print("====================== find_by_user_id")
         print(temp)
+        print(user_id)
         return temp
     
     @classmethod
@@ -70,12 +77,22 @@ class Cart(db.Model):
         
     @classmethod
     def update_cart(cls,id):
+        print('================= update_cart')
         cart = cls.find_by_user_id(id)
         data = request.get_json()
         product_ids = data.get('product_id', [])
         cart.update_products(product_ids)
         db.session.commit()
         return cart.json()
+    
+    @classmethod
+    def remove_from_cart(cls, user_id, product_id):
+        cart = cls.find_by_user_id(user_id)
+        if not cart:
+            return {"message": f"Cart for user ID {user_id} not found"}, 404
+        cart.remove_product(product_id)
+        db.session.commit()
+        return cart.json(), 200
     
     # @classmethod
     # def remove_from_cart(cls, user_id, product_id):
@@ -86,11 +103,11 @@ class Cart(db.Model):
     #     db.session.commit()
     #     return cart.json(), 200
     
-    @classmethod
-    def remove_product(cls, user_id):
-        cart = cls.find_by_user_id(user_id)
-        data = request.get_json()
-        product_ids = data.get('product_id', [])
-        cart.remove_products(product_ids)  
-        db.session.commit()
-        return cart.json()
+    # @classmethod
+    # def remove_product(cls, user_id):
+    #     cart = cls.find_by_user_id(user_id)
+    #     data = request.get_json()
+    #     product_ids = data.get('product_id', [])
+    #     cart.remove_product(product_ids)  
+    #     db.session.commit()
+    #     return cart.json()
