@@ -37,10 +37,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['JWT_SECRET_KEY'] = 'MED_SOURCE_SECRET'
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Replace with your SMTP server
-app.config['MAIL_PORT'] = 587  # Replace with your SMTP port
-app.config['MAIL_USERNAME'] = 'osamamohammad747@gmail.com'  # Replace with your email
-app.config['MAIL_PASSWORD'] = 'krdl kmhj ozaf ecui'  # Replace with your email password
+app.config['MAIL_SERVER'] = 'smtp.gmail.com' 
+app.config['MAIL_PORT'] = 587  
+app.config['MAIL_USERNAME'] = 'osamamohammad747@gmail.com'  
+app.config['MAIL_PASSWORD'] = 'krdl kmhj ozaf ecui' 
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
@@ -75,12 +75,14 @@ def send_email():
     data = request.get_json()
     user_email = data['user_email']
     medicine_name = data['medicine_name']
+    patient_name = data['patient']
+    requestDetail=data['requestDetails']
     
     msg = Message(
         subject=f"Medicine Request by Me",
         sender=app.config['MAIL_USERNAME'],
         recipients=[user_email],
-        body=f"Patient Name: By me\nMedicine Name: {medicine_name}\nRequest Details: checking"
+        body=f"Patient Name: {patient_name}\nMedicine Name: {medicine_name}\nRequest Details: {requestDetail}"
     )
     mail.send(msg)
     return jsonify({"message": "Email sent successfully!"}), 200

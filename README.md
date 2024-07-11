@@ -1,4 +1,4 @@
-# project4-back
+# Med Source Back
 
 ![/shelf](public/images/webLogo.jpeg)
 
@@ -64,4 +64,6 @@ This system aims to streamline the process of managing and ordering medicines, e
 
 ### **_Credits_**
 
----
+## [Flask Mail](https://flask-mail.readthedocs.io/en/latest/)
+
+## [Flask Association](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/)
