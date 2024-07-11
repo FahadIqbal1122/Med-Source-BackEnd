@@ -28,7 +28,7 @@ class UserMessage(db.Model):
     
     @classmethod
     def find_all(cls):
-        return Message.query.all()
+        return UserMessage.query.all()
     
     @classmethod
     def find_by_id(cls, id):
